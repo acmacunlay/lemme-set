@@ -30,7 +30,7 @@ setup_awscli_v2() {
     cd ~
     sudo rm -f $AWS_CLI_V2_ZIP
     sudo rm -f -r ./aws
-    curl $AWS_CLI_V2_URL -o $AWS_CLI_V2_ZIP
+    curl -s $AWS_CLI_V2_URL -o $AWS_CLI_V2_ZIP
     unzip $AWS_CLI_V2_ZIP
     ./aws/install --update
     source ~/.bashrc
@@ -57,7 +57,7 @@ setup_python() {
     # (ii) Setup application.
     # See: https://brain2life.hashnode.dev/how-to-install-pyenv-python-version-manager-on-ubuntu-2004
     # See: https://github.com/pyenv/pyenv#installation
-    curl $PYENV_URL | bash
+    curl -s $PYENV_URL | bash
     echo 'export PYENV_ROOT="$HOME/.pyenv"' >>~/.bashrc
     echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>~/.bashrc
     echo 'eval "$(pyenv init -)"' >>~/.bashrc
@@ -83,7 +83,7 @@ setup_nodejs() {
     sudo rm -f -r /root/.nvm
 
     # (ii) Setup application.
-    curl $NVM_URL | bash
+    curl -s $NVM_URL | bash
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
@@ -124,7 +124,7 @@ confirm_execution() {
 }
 
 main() {
-    confirm_execution
+    # confirm_execution
 
     echo && echo "[1/6]: Getting system updates..."
     echo && sudo apt update
