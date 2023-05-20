@@ -3,19 +3,6 @@
 # NAME: Ubuntu Post-Installation Setup (Development)
 # DESCRIPTION: This script sets setup a device with an Ubuntu distribution for software development.
 
-# AWS CLI Constants
-AWS_CLI_V2_URL="https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
-AWS_CLI_V2_ZIP="awscliv2.zip"
-
-# Python Constants
-PYENV_URL="https://pyenv.run"
-
-# NodeJS Constants
-NVM_URL="https://raw.githubusercontent.com/creationix/nvm/master/install.sh"
-
-# JVM Constants
-SDKMAN_URL="https://get.sdkman.io"
-
 draw_h_line() {
     # See: https://stackoverflow.com/questions/42762643
     printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -25,9 +12,10 @@ setup_awscli_v2() {
     # (i) Setup dependencies.
     cd ~
     sudo apt install unzip -y
+    AWS_CLI_V2_URL=https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    AWS_CLI_V2_ZIP=awscliv2.zip
 
     # (ii) Setup application.
-    cd ~
     sudo rm -f $AWS_CLI_V2_ZIP
     sudo rm -f -r ./aws
     curl -s $AWS_CLI_V2_URL -o $AWS_CLI_V2_ZIP
@@ -53,6 +41,7 @@ setup_python() {
         make build-essential libssl-dev zlib1g-dev libbz2-dev \
         libreadline-dev libsqlite3-dev wget curl llvm libncursesw5-dev \
         xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
+    PYENV_URL=https://pyenv.run
 
     # (ii) Setup application.
     # See: https://brain2life.hashnode.dev/how-to-install-pyenv-python-version-manager-on-ubuntu-2004
@@ -81,6 +70,7 @@ setup_nodejs() {
     # (i) Setup dependencies.
     cd ~
     sudo rm -f -r /root/.nvm
+    NVM_URL=https://raw.githubusercontent.com/creationix/nvm/master/install.sh
 
     # (ii) Setup application.
     curl -s $NVM_URL | bash
@@ -101,6 +91,7 @@ setup_jvm() {
     # (i) Setup dependencies.
     cd ~
     sudo apt install zip unzip -y
+    SDKMAN_URL=https://get.sdkman.io
 
     # (ii) Setup application.
     curl -s $SDKMAN_URL | bash
@@ -124,7 +115,7 @@ confirm_execution() {
 }
 
 main() {
-    # confirm_execution
+    confirm_execution
 
     echo && echo "[1/6]: Getting system updates..."
     echo && sudo apt update
