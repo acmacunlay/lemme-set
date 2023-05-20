@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 
-<<EOF
-
-    NAME: Ubuntu Post-Installation Setup (Development)
-    DESCRIPTION: This sets setup a device with an Ubuntu distribution for software development.
-
-EOF
+# NAME: Ubuntu Post-Installation Setup (Development)
+# DESCRIPTION: This script sets setup a device with an Ubuntu distribution for software development.
 
 # AWS CLI Constants
 AWS_CLI_V2_URL=https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
