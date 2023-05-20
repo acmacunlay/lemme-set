@@ -4,17 +4,17 @@
 # DESCRIPTION: This script sets setup a device with an Ubuntu distribution for software development.
 
 # AWS CLI Constants
-AWS_CLI_V2_URL=https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
-AWS_CLI_V2_ZIP=awscliv2.zip
+AWS_CLI_V2_URL="https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+AWS_CLI_V2_ZIP="awscliv2.zip"
 
 # Python Constants
-PYENV_URL=https://pyenv.run
+PYENV_URL="https://pyenv.run"
 
 # NodeJS Constants
-NVM_URL=https://raw.githubusercontent.com/creationix/nvm/master/install.sh
+NVM_URL="https://raw.githubusercontent.com/creationix/nvm/master/install.sh"
 
 # JVM Constants
-SDKMAN_URL=https://get.sdkman.io
+SDKMAN_URL="https://get.sdkman.io"
 
 draw_h_line() {
     # See: https://stackoverflow.com/questions/42762643
