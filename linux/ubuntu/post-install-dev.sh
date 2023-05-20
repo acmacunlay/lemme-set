@@ -11,55 +11,70 @@ draw_h_line() {
 }
 
 update_system_dependencies() {
-    sudo apt update
-    sudo apt upgrade
-    return
+    sudo apt update && sudo apt upgrade
+    return 0
 }
 
-setup_awscliv2_dependencies() {
+setup_awscli_v2() {
+    # (i) Setup dependencies.
     echo "Code reached here."
-    return
-}
 
-setup_awscliv2() {
-    setup_awscliv2_dependencies
-    return
-}
+    # (ii) Setup application.
 
-setup_python_dependencies() {
-    echo "Code reached here."
-    return
+    # (iii) Check if setup was successful.
+    return 0
 }
 
 setup_python() {
-    setup_python_dependencies
-    return
-}
-
-setup_nodejs_dependencies() {
+    # (i) Setup dependencies.
     echo "Code reached here."
-    return
+
+    # (ii) Setup application.
+
+    # (iii) Check if setup was successful.
+    return 0
 }
 
 setup_nodejs() {
-    setup_nodejs_dependencies
-    return
-}
-
-setup_java_dependencies() {
+    # (i) Setup dependencies.
     echo "Code reached here."
-    return
+
+    # (ii) Setup application.
+
+    # (iii) Check if setup was successful.
+    return 0
 }
 
 setup_java() {
-    setup_java_dependencies
-    return
+    # (i) Setup dependencies.
+    echo "Code reached here."
+
+    # (ii) Setup application.
+
+    # (iii) Check if setup was successful.
+    return 0
 }
+
+confirm_execution() {}
 
 main() {
     draw_h_line
     echo "${INTRO}"
     draw_h_line
+
+    read -p "Do you wish to install this program? [y/n]: " yn
+    case $yn in
+    [Yy]*)
+        make install
+        break
+        ;;
+    [Nn]*)
+        exit
+        ;;
+    *)
+        echo "Please answer yes or no."
+        ;;
+    esac
 
     echo
     echo "[1/3]: 🔨️ Updating system dependencies..."
