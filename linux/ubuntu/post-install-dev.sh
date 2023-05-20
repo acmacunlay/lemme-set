@@ -1,89 +1,162 @@
 #!/usr/bin/env bash
 
-INTRO="""
-🔨️ Ubuntu Post-Installation Setup (Development)
+<<EOF
 
-This sets setup a device with an Ubuntu distribution for software development.
-"""
+    NAME: Ubuntu Post-Installation Setup (Development)
+    DESCRIPTION: This sets setup a device with an Ubuntu distribution for software development.
+
+EOF
+
+# AWS CLI Constants
+AWS_CLI_V2_URL=https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+AWS_CLI_V2_ZIP=awscliv2.zip
+
+# Python Constants
+PYENV_URL=https://pyenv.run
+
+# NodeJS Constants
+NVM_URL=https://raw.githubusercontent.com/creationix/nvm/master/install.sh
+
+# JVM Constants
+SDKMAN_URL=https://get.sdkman.io
 
 draw_h_line() {
+    # See: https://stackoverflow.com/questions/42762643
     printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 }
 
-update_system_dependencies() {
-    sudo apt update
-    sudo apt upgrade
-    return
-}
+setup_awscli_v2() {
+    # (i) Setup dependencies.
+    cd ~
+    sudo apt install unzip -y
 
-setup_awscliv2_dependencies() {
-    echo "Code reached here."
-    return
-}
+    # (ii) Setup application.
+    cd ~
+    sudo rm -f $AWS_CLI_V2_ZIP
+    sudo rm -f -r ./aws
+    curl $AWS_CLI_V2_URL -o $AWS_CLI_V2_ZIP
+    unzip $AWS_CLI_V2_ZIP
+    ./aws/install --update
+    source ~/.bashrc
 
-setup_awscliv2() {
-    setup_awscliv2_dependencies
-    return
-}
+    # (iii) Check if setup was successful.
+    # echo && echo "Checking AWS CLI version..." && echo
+    # aws --version
 
-setup_python_dependencies() {
-    echo "Code reached here."
-    return
+    # (iv) Cleanup.
+    sudo rm -f $AWS_CLI_V2_ZIP
+    return 0
 }
 
 setup_python() {
-    setup_python_dependencies
-    return
-}
+    # (i) Setup dependencies.
+    cd ~
+    sudo rm -f -r /root/.pyenv
+    sudo rm -f -r ~/.pyenv
+    sudo apt-get install \
+        make build-essential libssl-dev zlib1g-dev libbz2-dev \
+        libreadline-dev libsqlite3-dev wget curl llvm libncursesw5-dev \
+        xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
 
-setup_nodejs_dependencies() {
-    echo "Code reached here."
-    return
+    # (ii) Setup application.
+    # See: https://brain2life.hashnode.dev/how-to-install-pyenv-python-version-manager-on-ubuntu-2004
+    # See: https://github.com/pyenv/pyenv#installation
+    curl $PYENV_URL | bash
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >>~/.bashrc
+    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>~/.bashrc
+    echo 'eval "$(pyenv init -)"' >>~/.bashrc
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >>~/.profile
+    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>~/.profile
+    echo 'eval "$(pyenv init -)"' >>~/.profile
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >>~/.bash_profile
+    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>~/.bash_profile
+    echo 'eval "$(pyenv init -)"' >>~/.bash_profile
+    source ~/.bashrc
+
+    # (iii) Check if setup was successful.
+    # echo && echo "Checking pyenv version..." && echo
+    # pyenv --version
+
+    # (iv) Cleanup.
+    return 0
 }
 
 setup_nodejs() {
-    setup_nodejs_dependencies
-    return
+    # (i) Setup dependencies.
+    cd ~
+    sudo rm -f -r /root/.nvm
+
+    # (ii) Setup application.
+    curl $NVM_URL | bash
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    source ~/.bashrc
+
+    # (iii) Check if setup was successful.
+    # echo && echo "Checking NVM version..." && echo
+    # nvm --version
+
+    # (iv) Cleanup.
+    return 0
 }
 
-setup_java_dependencies() {
-    echo "Code reached here."
-    return
+setup_jvm() {
+    # (i) Setup dependencies.
+    cd ~
+    sudo apt install zip unzip -y
+
+    # (ii) Setup application.
+    curl -s $SDKMAN_URL | bash
+    source ~/.bashrc
+
+    # (iii) Check if setup was successful.
+    # echo && echo "Checking SDKMAN! version..." && echo
+    # sdk version
+
+    # (iv) Cleanup.
+    return 0
 }
 
-setup_java() {
-    setup_java_dependencies
-    return
+confirm_execution() {
+    echo && read -p "Do you wish to continue setup? [y/n]: " yn && echo
+    case $yn in
+    [Yy]*) echo "User confirmed execution." && return 0 ;;
+    [Nn]*) echo "User cancelled execution." && exit ;;
+    *) echo "Invalid input." && exit ;;
+    esac
 }
 
 main() {
-    draw_h_line
-    echo "${INTRO}"
-    draw_h_line
+    confirm_execution
 
-    echo
-    echo "[1/3]: 🔨️ Updating system dependencies..."
-    echo
-    update_system_dependencies
-    echo
-    draw_h_line
+    echo && echo "[1/6]: Getting system updates..."
+    echo && sudo apt update
+    echo && sudo apt upgrade
+    echo && draw_h_line
 
-    echo
-    echo "[2/3]: 🔨️ Setting up Python..."
-    echo
-    setup_python
-    echo
-    draw_h_line
+    echo && echo "[2/6]: Setting up AWS CLI v2..."
+    echo && setup_awscli_v2
+    echo && draw_h_line
 
-    echo
-    echo "[3/3]: 🔨️ Setting up NodeJS..."
-    echo
-    setup_nodejs
-    echo
-    draw_h_line
+    echo && echo "[3/6]: Setting up Python..."
+    echo && setup_python
+    echo && draw_h_line
 
-    echo
-    return
+    echo && echo "[4/6]: Setting up NodeJS..."
+    echo && setup_nodejs
+    echo && draw_h_line
+
+    echo && echo "[5/6]: Setting up JVM..."
+    echo && setup_jvm
+    echo && draw_h_line
+
+    echo && echo "[6/6]: Cleanup..."
+    echo && sudo apt autoremove
+    echo && draw_h_line
+
+    echo && echo "Setup finished." && echo
+    return 0
 }
 
 main
