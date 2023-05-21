@@ -110,12 +110,12 @@ confirm_execution() {
     case $yn in
     [Yy]*) echo "User confirmed execution." && return 0 ;;
     [Nn]*) echo "User cancelled execution." && exit ;;
-    *) echo "Invalid input." && exit ;;
+    # *) echo "Invalid input." && exit ;;
     esac
 }
 
 main() {
-    # confirm_execution
+    confirm_execution
 
     echo && echo "[1/6]: Getting system updates..."
     echo && sudo apt update
