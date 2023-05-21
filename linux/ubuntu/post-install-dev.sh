@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-# NAME: Ubuntu Post-Installation Setup (Development)
-# DESCRIPTION: This script sets setup a device with an Ubuntu distribution for software development.
+INTRO="
+🔨️ Ubuntu Post-Installation Setup (Development)
+
+This script sets setup a device with an Ubuntu distribution for software development.
+"
 
 draw_h_line() {
     # See: https://stackoverflow.com/questions/42762643
@@ -105,35 +108,39 @@ setup_jvm() {
     # (iv) Cleanup.
 }
 
-# confirm_execution() {
-#     echo && read -p "Do you wish to continue setup? [y/n]: " yn && echo
-#     case $yn in
-#     [Yy]*) echo "User confirmed execution." && return 0 ;;
-#     [Nn]*) echo "User cancelled execution." && exit ;;
-#     # *) echo "Invalid input." && exit ;;
-#     esac
-# }
+confirm_execution() {
+    echo && read -p "Do you wish to continue setup? [y/n]: " yn && echo
+    case $yn in
+    [Yy]*) echo "User confirmed execution." && return 0 ;;
+    [Nn]*) echo "User cancelled execution." && exit ;;
+    *) echo "Invalid input." && exit ;;
+    esac
+}
 
 main() {
-    # confirm_execution
+    draw_h_line
+    echo "$INTRO"
+    draw_h_line
 
-    echo && echo "[1/6]: Getting system updates..."
+    confirm_execution
+
+    echo && echo "[1/6]: 🔐️ Getting system updates..."
     echo && sudo apt update && sudo apt upgrade
     echo && draw_h_line
 
-    echo && echo "[2/6]: Setting up AWS CLI v2..."
+    echo && echo "[2/6]: 🔨️ Setting up AWS CLI v2..."
     echo && setup_awscli_v2
     echo && draw_h_line
 
-    echo && echo "[3/6]: Setting up Python..."
+    echo && echo "[3/6]: 🔨️ Setting up Python..."
     echo && setup_python
     echo && draw_h_line
 
-    echo && echo "[4/6]: Setting up NodeJS..."
+    echo && echo "[4/6]: 🔨️ Setting up NodeJS..."
     echo && setup_nodejs
     echo && draw_h_line
 
-    echo && echo "[5/6]: Setting up JVM..."
+    echo && echo "[5/6]: 🔨️ Setting up JVM..."
     echo && setup_jvm
     echo && draw_h_line
 
@@ -141,7 +148,7 @@ main() {
     echo && sudo apt autoremove
     echo && draw_h_line
 
-    echo && echo "Setup finished." && echo
+    echo && echo "Setup finished. ✨️" && echo
 }
 
 main
