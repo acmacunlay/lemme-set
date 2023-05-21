@@ -122,7 +122,7 @@ main() {
     echo "$INTRO"
     draw_h_line
 
-    confirm_execution
+    # confirm_execution
 
     echo && echo "[1/6]: 🔐️ Getting system updates..."
     echo && sudo apt update && sudo apt upgrade
