@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 INTRO="
-🔨️ Ubuntu Post-Installation Setup (Development)
+Ubuntu Post-Installation Developer Setup
 
 This script sets setup a device with an Ubuntu distribution for software development.
 "
@@ -11,7 +11,23 @@ draw_h_line() {
     printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 }
 
+show_intro() {
+    draw_h_line
+    echo "$INTRO"
+    draw_h_line
+}
+
+get_system_updates() {
+    echo && echo "Procedure: Getting system updates..." && echo
+
+    sudo apt update && sudo apt upgrade
+
+    echo && draw_h_line
+}
+
 setup_awscli_v2() {
+    echo && echo "Procedure: Setting up AWS CLI v2..." && echo
+
     # (i) Setup dependencies.
     cd ~
     sudo apt install unzip -y
@@ -28,14 +44,16 @@ setup_awscli_v2() {
     source ~/.bashrc
 
     # (iii) Check if setup was successful.
-    # echo && echo "Checking AWS CLI version..." && echo
-    # aws --version
 
     # (iv) Cleanup.
     sudo rm -f $AWS_CLI_V2_ZIP
+
+    echo && draw_h_line
 }
 
 setup_python() {
+    echo && echo "Procedure: Setting up Python..." && echo
+
     # (i) Setup dependencies.
     cd ~
     sudo rm -f -r /root/.pyenv
@@ -63,13 +81,15 @@ setup_python() {
     source ~/.bashrc
 
     # (iii) Check if setup was successful.
-    # echo && echo "Checking pyenv version..." && echo
-    # pyenv --version
 
     # (iv) Cleanup.
+
+    echo && draw_h_line
 }
 
 setup_nodejs() {
+    echo && echo "Procedure: Setting up NodeJS..." && echo
+
     # (i) Setup dependencies.
     cd ~
     sudo rm -f -r /root/.nvm
@@ -84,13 +104,15 @@ setup_nodejs() {
     source ~/.bashrc
 
     # (iii) Check if setup was successful.
-    # echo && echo "Checking NVM version..." && echo
-    # nvm --version
 
     # (iv) Cleanup.
+
+    echo && draw_h_line
 }
 
 setup_jvm() {
+    echo && echo "Procedure: Setting up JVM..." && echo
+
     # (i) Setup dependencies.
     cd ~
     sudo apt install zip unzip -y
@@ -102,53 +124,29 @@ setup_jvm() {
     source ~/.bashrc
 
     # (iii) Check if setup was successful.
-    # echo && echo "Checking SDKMAN! version..." && echo
-    # sdk version
 
     # (iv) Cleanup.
+
+    echo && draw_h_line
 }
 
-# confirm_execution() {
-#     echo && read -p "Do you wish to continue setup? [y/n]: " yn && echo
-#     case $yn in
-#     [Yy]*) echo "User confirmed execution." && return 0 ;;
-#     [Nn]*) echo "User cancelled execution." && exit ;;
-#     *) echo "Invalid input." && exit ;;
-#     esac
-# }
+cleanup() {
+    echo && echo "Procedure: Cleanup..." && echo
+
+    sudo apt autoremove
+
+    echo && draw_h_line
+}
 
 main() {
-    draw_h_line
-    echo "$INTRO"
-    draw_h_line
+    show_intro
+    get_system_updates
+    setup_awscli_v2
+    setup_python
+    setup_nodejs
+    setup_jvm
 
-    # confirm_execution
-
-    echo && echo "[1/6]: 🔐️ Getting system updates..."
-    echo && sudo apt update && sudo apt upgrade
-    echo && draw_h_line
-
-    echo && echo "[2/6]: 🔨️ Setting up AWS CLI v2..."
-    echo && setup_awscli_v2
-    echo && draw_h_line
-
-    echo && echo "[3/6]: 🔨️ Setting up Python..."
-    echo && setup_python
-    echo && draw_h_line
-
-    echo && echo "[4/6]: 🔨️ Setting up NodeJS..."
-    echo && setup_nodejs
-    echo && draw_h_line
-
-    echo && echo "[5/6]: 🔨️ Setting up JVM..."
-    echo && setup_jvm
-    echo && draw_h_line
-
-    echo && echo "[6/6]: 🧹️ Cleanup..."
-    echo && sudo apt autoremove
-    echo && draw_h_line
-
-    echo && echo "Setup finished. ✨️" && echo
+    echo && echo "Setup finished." && echo
 }
 
 main
