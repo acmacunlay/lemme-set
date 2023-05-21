@@ -145,4 +145,5 @@ main() {
     echo && echo "Setup finished." && echo
 }
 
-main
+# main
+echo Hello World
