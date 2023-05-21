@@ -118,8 +118,7 @@ main() {
     # confirm_execution
 
     echo && echo "[1/6]: Getting system updates..."
-    echo && sudo apt update
-    echo && sudo apt upgrade
+    echo && sudo apt update && sudo apt upgrade
     echo && draw_h_line
 
     echo && echo "[2/6]: Setting up AWS CLI v2..."
@@ -145,5 +144,4 @@ main() {
     echo && echo "Setup finished." && echo
 }
 
-# main
-echo Hello World
+main
