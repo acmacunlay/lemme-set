@@ -108,14 +108,14 @@ setup_jvm() {
     # (iv) Cleanup.
 }
 
-confirm_execution() {
-    echo && read -p "Do you wish to continue setup? [y/n]: " yn && echo
-    case $yn in
-    [Yy]*) echo "User confirmed execution." && return 0 ;;
-    [Nn]*) echo "User cancelled execution." && exit ;;
-    *) echo "Invalid input." && exit ;;
-    esac
-}
+# confirm_execution() {
+#     echo && read -p "Do you wish to continue setup? [y/n]: " yn && echo
+#     case $yn in
+#     [Yy]*) echo "User confirmed execution." && return 0 ;;
+#     [Nn]*) echo "User cancelled execution." && exit ;;
+#     *) echo "Invalid input." && exit ;;
+#     esac
+# }
 
 main() {
     draw_h_line
@@ -144,7 +144,7 @@ main() {
     echo && setup_jvm
     echo && draw_h_line
 
-    echo && echo "[6/6]: Cleanup..."
+    echo && echo "[6/6]: 🧹️ Cleanup..."
     echo && sudo apt autoremove
     echo && draw_h_line
 
