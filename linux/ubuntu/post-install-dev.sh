@@ -115,7 +115,7 @@ confirm_execution() {
 }
 
 main() {
-    confirm_execution
+    # confirm_execution
 
     echo && echo "[1/6]: Getting system updates..."
     echo && sudo apt update
