@@ -12,10 +12,11 @@ setup_awscli_v2() {
     # (i) Setup dependencies.
     cd ~
     sudo apt install unzip -y
+
+    # (ii) Setup application.
     AWS_CLI_V2_URL=https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
     AWS_CLI_V2_ZIP=awscliv2.zip
 
-    # (ii) Setup application.
     sudo rm -f $AWS_CLI_V2_ZIP
     sudo rm -f -r ./aws
     curl -s $AWS_CLI_V2_URL -o $AWS_CLI_V2_ZIP
@@ -29,7 +30,6 @@ setup_awscli_v2() {
 
     # (iv) Cleanup.
     sudo rm -f $AWS_CLI_V2_ZIP
-    return 0
 }
 
 setup_python() {
@@ -41,11 +41,12 @@ setup_python() {
         make build-essential libssl-dev zlib1g-dev libbz2-dev \
         libreadline-dev libsqlite3-dev wget curl llvm libncursesw5-dev \
         xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
-    PYENV_URL=https://pyenv.run
 
     # (ii) Setup application.
     # See: https://brain2life.hashnode.dev/how-to-install-pyenv-python-version-manager-on-ubuntu-2004
     # See: https://github.com/pyenv/pyenv#installation
+    PYENV_URL=https://pyenv.run
+
     curl -s $PYENV_URL | bash
     echo 'export PYENV_ROOT="$HOME/.pyenv"' >>~/.bashrc
     echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>~/.bashrc
@@ -63,16 +64,16 @@ setup_python() {
     # pyenv --version
 
     # (iv) Cleanup.
-    return 0
 }
 
 setup_nodejs() {
     # (i) Setup dependencies.
     cd ~
     sudo rm -f -r /root/.nvm
-    NVM_URL=https://raw.githubusercontent.com/creationix/nvm/master/install.sh
 
     # (ii) Setup application.
+    NVM_URL=https://raw.githubusercontent.com/creationix/nvm/master/install.sh
+
     curl -s $NVM_URL | bash
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -84,16 +85,16 @@ setup_nodejs() {
     # nvm --version
 
     # (iv) Cleanup.
-    return 0
 }
 
 setup_jvm() {
     # (i) Setup dependencies.
     cd ~
     sudo apt install zip unzip -y
-    SDKMAN_URL=https://get.sdkman.io
 
     # (ii) Setup application.
+    SDKMAN_URL=https://get.sdkman.io
+
     curl -s $SDKMAN_URL | bash
     source ~/.bashrc
 
@@ -102,7 +103,6 @@ setup_jvm() {
     # sdk version
 
     # (iv) Cleanup.
-    return 0
 }
 
 confirm_execution() {
@@ -143,7 +143,6 @@ main() {
     echo && draw_h_line
 
     echo && echo "Setup finished." && echo
-    return 0
 }
 
 main
